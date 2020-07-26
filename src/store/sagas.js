@@ -374,7 +374,7 @@ function* putCandidate(action) {
             immRefugee: $immRefugee
             immOverstayedVisa: $immOverstayedVisa
             immArrested: $immArrested
-            immIsCleared: $immCleared
+            immIsCleared: $immIsCleared
             clientMutationId: $clientMutationId
         }){
             candidate{
