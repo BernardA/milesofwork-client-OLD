@@ -321,7 +321,7 @@ function* putCandidate(action) {
             $immRefugee: Boolean
             $immOverstayedVisa: Boolean
             $immArrested: Boolean
-            $immCleared: Boolean
+            $immIsCleared: Boolean
         ){
         updateCandidate(input: {
             id: $id
@@ -374,7 +374,7 @@ function* putCandidate(action) {
             immRefugee: $immRefugee
             immOverstayedVisa: $immOverstayedVisa
             immArrested: $immArrested
-            immCleared: $immCleared
+            immIsCleared: $immCleared
             clientMutationId: $clientMutationId
         }){
             candidate{
@@ -438,7 +438,7 @@ function* putCandidate(action) {
         immRefugee: values.immRefugee,
         immOverstayedVisa: values.immOverstayedVisa,
         immArrested: values.immArrested,
-        immCleared: values.immCleared,
+        immIsCleared: values.immIsCleared,
         clientMutationId: 'llkjlkjfdlkjlk',
     };
 

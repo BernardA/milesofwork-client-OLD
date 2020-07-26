@@ -63,9 +63,9 @@ class Step9 extends React.Component {
         values.immRefugee = values.immRefugee === '1' ? true : false;
         values.immOverstayedVisa = values.immOverstayedVisa === '1' ? true : false;
         values.immArrested = values.immArrested === '1' ? true : false;
-        values.immCleared = true;
+        values.immIsCleared = true;
         if (values.immRefusedEnterCanada || values.immDeported || values.immRefugee || values.immOverstayedVisa || values.immArresed) {
-            values.immCleared = false;
+            values.immIsCleared = false;
         }
         console.log('values', values);
         this.props.actionPutCandidate(values);
