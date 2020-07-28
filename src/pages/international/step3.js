@@ -4,11 +4,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { withCookies, Cookies } from 'react-cookie';
-import { Button, FormGroup, MenuItem, Typography } from '@material-ui/core/';
+import { Button, FormGroup, Typography } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import { required } from '../../tools/validator';
-import { renderInput, renderCheckBox } from '../../components/formInputs';
-import RenderSelect from '../../components/formInputRenderSelect';
+import { renderInput, renderCheckBox, renderRadio } from '../../components/formInputs';
 import CountrySelect from '../../components/countrySelect';
 import { actionPutCandidate } from '../../store/actions';
 import NotifierDialog from '../../components/notifierDialog';
@@ -32,19 +31,18 @@ class Step3 extends React.Component {
 
     componentDidUpdate(prevProps) {
         const { candidate, router, cookies } = this.props;
-        console.log('UPDATE', this.props);
         if (prevProps.candidate !== candidate) {
             const { dataPutCandidate, errorPutCandidate } = candidate;
             if (prevProps.candidate.dataPutCandidate !== dataPutCandidate) {
                 if (candidate.dataPutCandidate.candidate.driveClassEquivalent > 1) {
-                    router.push({
-                        pathname: '/international/notification',
-                        query: { reason: 'driveClass' },
-                    });
+                    router.push(
+                        '/international/notification/[reason]',
+                        '/international/notification/driveClassEquivalent',
+                    );
                 } else {
                     cookies.set(
-                        'driveClass',
-                        candidate.dataPostCandidate.candidate.driveClass,
+                        'driveClassEquivalent',
+                        candidate.dataPutCandidate.candidate.driveClassEquivalent,
                         COOKIE_OPTIONS,
                     );
                     cookies.set('stepDone', 3, COOKIE_OPTIONS);
@@ -64,7 +62,6 @@ class Step3 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const { cookies, putCandidateStep3Form: { values } } = this.props;
         values.id = cookies.get('candidateId');
         const date = values.driveFirstIssuanceDate;
@@ -87,7 +84,6 @@ class Step3 extends React.Component {
     };
 
     render() {
-        console.log('STEP3', this.props);
         const {
             handleSubmit,
             submitting,
@@ -95,7 +91,7 @@ class Step3 extends React.Component {
             error,
             reset,
             pristine,
-            isLoading,
+            candidate: { isLoading },
         } = this.props;
         return (
             <div className="container">
@@ -125,21 +121,36 @@ class Step3 extends React.Component {
                                 name="putCandidateStep3Form"
                                 onSubmit={handleSubmit(this.submitStep)}
                             >
-                                <div className="form_input">
+                                <FormGroup className="checkbox">
+                                    <div>
+                                        <Typography variant="body2">
+                                            Highest level of driver's licence ( per above )
+                                        </Typography>
+                                    </div>
                                     <Field
                                         name="driveClassEquivalent"
-                                        type="select"
-                                        label="Highest level of driver's licence"
-                                        variant="outlined"
-                                        component={RenderSelect}
+                                        type="radio"
+                                        component={renderRadio}
                                         validate={[required]}
-                                        autoFocus
-                                    >
-                                        <MenuItem value="1">Class 1</MenuItem>
-                                        <MenuItem value="2">Class 2</MenuItem>
-                                        <MenuItem value="3">Class 3</MenuItem>
-                                    </Field>
-                                </div>
+                                        options={[
+                                            {
+                                                title: 'Class1',
+                                                id: 'class1',
+                                                value: '1',
+                                            },
+                                            {
+                                                title: 'Class2',
+                                                id: 'class2',
+                                                value: '2',
+                                            },
+                                            {
+                                                title: 'Class3',
+                                                id: 'class3',
+                                                value: '3',
+                                            },
+                                        ]}
+                                    />
+                                </FormGroup>
                                 <div className="form_input">
                                     <Field
                                         name="driveIssuanceCountry"

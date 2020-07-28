@@ -106,15 +106,14 @@ class Step6 extends React.Component {
 
     componentDidUpdate(prevProps) {
         const { candidate, router, cookies } = this.props;
-        console.log('UPDATE', this.props);
         if (prevProps.candidate !== candidate) {
             const { dataPutCandidate, errorPutCandidate } = candidate;
             if (prevProps.candidate.dataPutCandidate !== dataPutCandidate) {
                 if (!this.state.isIntermediateOrHigher) {
-                    router.push({
-                        pathname: '/international/notification',
-                        query: { reason: 'langSelf' },
-                    });
+                    router.push(
+                        '/international/notification/[reason]',
+                        '/international/notification/langSelf',
+                    );
                 } else {
                     cookies.set('stepDone', 6, COOKIE_OPTIONS);
                     router.push('/international/step7');
@@ -133,7 +132,6 @@ class Step6 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const {
             cookies,
             putCandidateStep6Form: { values },
@@ -160,14 +158,11 @@ class Step6 extends React.Component {
     };
 
     render() {
-        console.log('STEP6', this.props);
         const {
             handleSubmit,
             submitting,
             invalid,
             error,
-            reset,
-            pristine,
             candidate: { isLoading },
             classes,
         } = this.props;
@@ -269,14 +264,6 @@ class Step6 extends React.Component {
                                             type="submit"
                                         >
                                             Continue
-                                        </Button>
-                                        <Button
-                                            disabled={pristine || submitting}
-                                            onClick={reset}
-                                            variant="contained"
-                                            color="primary"
-                                        >
-                                            Clear
                                         </Button>
                                     </FormGroup>
                                 </div>

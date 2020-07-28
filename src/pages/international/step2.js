@@ -7,16 +7,15 @@ import { withCookies, Cookies } from 'react-cookie';
 import {
     Button,
     FormGroup,
-    MenuItem,
     Typography,
 } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import { required } from '../../tools/validator';
-import { renderInput } from '../../components/formInputs';
-import RenderSelect from '../../components/formInputRenderSelect';
+import { renderInput, renderRadio } from '../../components/formInputs';
 import CountrySelect from '../../components/countrySelect';
 import { actionPostCandidate } from '../../store/actions';
 import NotifierDialog from '../../components/notifierDialog';
+import NotifierInline from '../../components/notifierInline';
 import { Loading } from '../../components/loading';
 import { YearPicker } from '../../components/datePickers';
 import { COOKIE_OPTIONS } from '../../../parameters';
@@ -41,15 +40,14 @@ class Step2 extends React.Component {
             router,
             cookies,
         } = this.props;
-        console.log('UPDATE', this.props);
         if (prevProps.candidate !== candidate) {
             const { dataPostCandidate, errorPostCandidate } = candidate;
             if (dataPostCandidate) {
-                if (candidate.dataPostCandidate.eduHighest === '1') {
-                    router.push({
-                        pathname: '/international/notification',
-                        query: { reason: 'edu'},
-                    });
+                if (candidate.dataPostCandidate.candidate.eduHighest === 1) {
+                    router.push(
+                        '/international/notification/[reason]',
+                        '/international/notification/eduHighest'
+                    )
                 } else {
                     cookies.set(
                         'candidateId',
@@ -72,10 +70,10 @@ class Step2 extends React.Component {
                 if (
                     errorPostCandidate[0].persoEmail &&
                     errorPostCandidate[0].persoEmail.includes('already used')) {
-                    router.push({
-                        pathname: '/international/notification',
-                        query: { reason: 'email'},
-                    });
+                    router.push(
+                        '/international/notification/[reason]',
+                        '/international/notification/email',
+                    );
                 } else {
                     this.setState({
                         notification: {
@@ -91,7 +89,6 @@ class Step2 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const { postCandidateForm: { values } } = this.props;
         const date = values.eduHighestYearAttained;
         values.eduHighestYearAttained = date.getUTCFullYear();
@@ -117,7 +114,7 @@ class Step2 extends React.Component {
             error,
             reset,
             pristine,
-            isLoading,
+            candidate: { isLoading },
         } = this.props;
         return (
             <div className="container">
@@ -126,11 +123,14 @@ class Step2 extends React.Component {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <main>
+                    <NotifierInline
+                        message="Candidate created in db. If fails eduHighest redirected to /notification"
+                        severity="info"
+                        isNotClosable
+                    />
                     {isLoading ? <Loading /> : null}
                     <div className="title">
-                        <Typography variant="h4">
-                            Education
-                        </Typography>
+                        <Typography variant="h4">Education</Typography>
                         <Typography variant="subtitle1" gutterBottom>
                             Step 2 of 9
                         </Typography>
@@ -143,25 +143,36 @@ class Step2 extends React.Component {
                                 name="postCandidateForm"
                                 onSubmit={handleSubmit(this.submitStep)}
                             >
-                                <div className="form_input">
+                                <FormGroup className="checkbox">
+                                    <div>
+                                        <Typography variant="body2">
+                                            Highest level of education completed
+                                        </Typography>
+                                    </div>
                                     <Field
                                         name="eduHighest"
-                                        type="select"
-                                        label="Highest level of education completed"
-                                        variant="outlined"
-                                        component={RenderSelect}
+                                        type="radio"
+                                        component={renderRadio}
                                         validate={[required]}
-                                        autoFocus
-                                    >
-                                        <MenuItem value="1">Primary</MenuItem>
-                                        <MenuItem value="2">
-                                            High school
-                                        </MenuItem>
-                                        <MenuItem value="3">
-                                            University
-                                        </MenuItem>
-                                    </Field>
-                                </div>
+                                        options={[
+                                            {
+                                                title: 'Primary',
+                                                id: 'Primary',
+                                                value: '1',
+                                            },
+                                            {
+                                                title: 'Secondary(High school)',
+                                                id: 'secondary',
+                                                value: '2',
+                                            },
+                                            {
+                                                title: 'Tertiary (University)',
+                                                id: 'tertiary',
+                                                value: '3',
+                                            },
+                                        ]}
+                                    />
+                                </FormGroup>
                                 <div className="form_input">
                                     <Field
                                         name="eduHighestYearAttained"

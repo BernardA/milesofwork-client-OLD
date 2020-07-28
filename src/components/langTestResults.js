@@ -19,9 +19,6 @@ const LangTestResults = (props) => {
     const [selectedDate, setSelectedDate] = useState(null);
     return (
         <div className={classes.section}>
-            <div>
-                <Typography variant="h4">{testName}</Typography>
-            </div>
             <div className="form_input">
                 <Field
                     name={fieldName[0]}

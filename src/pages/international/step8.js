@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { withCookies, Cookies } from 'react-cookie';
+import { withStyles } from '@material-ui/core/styles';
 import { Button, FormGroup, Typography } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import { required } from '../../tools/validator';
@@ -12,6 +13,12 @@ import { actionPostFamily } from '../../store/actions';
 import NotifierDialog from '../../components/notifierDialog';
 import { Loading } from '../../components/loading';
 import { COOKIE_OPTIONS } from '../../../parameters';
+
+const styles = () => ({
+    actionButton: {
+        marginBottom: '30px',
+    },
+});
 
 class Step8 extends React.Component {
     constructor(props) {
@@ -32,7 +39,6 @@ class Step8 extends React.Component {
             dataPostFamily,
             errorPostFamily,
         } = this.props;
-        console.log('UPDATE', this.props);
         if (!prevProps.dataPostFamily && dataPostFamily) {
             this.setState({
                 isAddNewFamilyMember: false,
@@ -50,7 +56,6 @@ class Step8 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const {
             cookies,
             postFamilyForm: { values },
@@ -84,8 +89,6 @@ class Step8 extends React.Component {
     };
 
     render() {
-        console.log('STEP8', this.props);
-        console.log('STEP8 state', this.state);
         const {
             handleSubmit,
             submitting,
@@ -93,7 +96,9 @@ class Step8 extends React.Component {
             // error,
             reset,
             pristine,
-            isLoading,
+            candidate: { isLoading },
+            isLoadingFamily,
+            classes,
         } = this.props;
         const { isAddNewFamilyMember } = this.state;
         return (
@@ -103,7 +108,7 @@ class Step8 extends React.Component {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <main>
-                    {isLoading ? <Loading /> : null}
+                    {isLoading || isLoadingFamily ? <Loading /> : null}
                     <div className="title">
                         <Typography variant="h4">
                             Family
@@ -116,6 +121,7 @@ class Step8 extends React.Component {
                         <div>
                             <FormGroup>
                                 <Button
+                                    className={classes.actionButton}
                                     variant="contained"
                                     color="primary"
                                     onClick={this.handleAddNewFamily}
@@ -202,7 +208,7 @@ const mapStateToProps = (state) => {
         candidate: state.candidate,
         dataPostFamily: state.family.dataPostFamily,
         errorPostFamily: state.family.errorPostFamily,
-        isLoading: state.family.isLoading,
+        isLoadingFamily: state.family.isLoading,
         postFamilyForm: state.form.postFamilyForm,
     };
 };

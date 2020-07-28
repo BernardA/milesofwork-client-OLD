@@ -22,7 +22,10 @@ const styles = () => ({
     },
     caption: {
         marginBottom: '20px',
-    }
+    },
+    strong: {
+        display: 'block',
+    },
 });
 
 class Step7 extends React.Component {
@@ -41,7 +44,6 @@ class Step7 extends React.Component {
 
     componentDidUpdate(prevProps) {
         const { candidate, router, cookies } = this.props;
-        console.log('UPDATE', this.props);
         if (prevProps.candidate !== candidate) {
             const { dataPutCandidate, errorPutCandidate } = candidate;
             if (prevProps.candidate.dataPutCandidate !== dataPutCandidate) {
@@ -61,7 +63,6 @@ class Step7 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const {
             cookies,
             putCandidateStep7: { values },
@@ -84,7 +85,6 @@ class Step7 extends React.Component {
     };
 
     render() {
-        console.log('STEP7', this.props);
         const {
             handleSubmit,
             submitting,
@@ -92,7 +92,7 @@ class Step7 extends React.Component {
             error,
             reset,
             pristine,
-            isLoading,
+            candidate: { isLoading },
             putCandidateStep7,
             classes,
         } = this.props;
@@ -312,7 +312,14 @@ class Step7 extends React.Component {
                                                     <Typography variant="body2">
                                                         Canadian English
                                                         Language Proficiency
-                                                        Index (CELPIP- General)
+                                                        Index{' '}
+                                                        <strong
+                                                            className={
+                                                                classes.strong
+                                                            }
+                                                        >
+                                                            (CELPIP- General)
+                                                        </strong>
                                                     </Typography>
                                                 }
                                                 variant="outlined"
@@ -340,7 +347,14 @@ class Step7 extends React.Component {
                                                 label={
                                                     <Typography variant="body2">
                                                         International English
-                                                        Language System (IELTS)
+                                                        Language System{' '}
+                                                        <strong
+                                                            className={
+                                                                classes.strong
+                                                            }
+                                                        >
+                                                            (IELTS)
+                                                        </strong>
                                                     </Typography>
                                                 }
                                                 variant="outlined"
@@ -368,7 +382,14 @@ class Step7 extends React.Component {
                                                 label={
                                                     <Typography variant="body2">
                                                         Test d’évaluation de
-                                                        français (TEF Canada)
+                                                        français{' '}
+                                                        <strong
+                                                            className={
+                                                                classes.strong
+                                                            }
+                                                        >
+                                                            (TEF Canada)
+                                                        </strong>
                                                     </Typography>
                                                 }
                                                 variant="outlined"
@@ -396,7 +417,14 @@ class Step7 extends React.Component {
                                                 label={
                                                     <Typography variant="body2">
                                                         Test de connaissance du
-                                                        français (TCF Canada)
+                                                        français{' '}
+                                                        <strong
+                                                            className={
+                                                                classes.strong
+                                                            }
+                                                        >
+                                                            (TCF Canada)
+                                                        </strong>
                                                     </Typography>
                                                 }
                                                 variant="outlined"

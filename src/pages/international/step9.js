@@ -28,16 +28,27 @@ class Step9 extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { candidate, router, cookies } = this.props;
-        console.log('UPDATE', this.props);
+        const {
+            candidate,
+            router,
+            cookies,
+            putCandidateStep9: { values },
+        } = this.props;
         if (prevProps.candidate !== candidate) {
             const { dataPutCandidate, errorPutCandidate } = candidate;
             if (prevProps.candidate.dataPutCandidate !== dataPutCandidate) {
+                if (!values.immIsCleared) {
+                    router.push(
+                        '/international/notification/[reason]',
+                        '/international/notification/immIsCleared',
+                    );
+                } else {
                     cookies.set('stepDone', 9, COOKIE_OPTIONS);
-                    router.push({
-                        pathname: '/international/notification',
-                        query: { reason: 'success'},
-                    });
+                    router.push(
+                        '/international/notification/[reason]',
+                        '/international/notification/success',
+                    );
+                }
             } else if (!prevProps.errorPutCandidate && errorPutCandidate) {
                 this.setState({
                     notification: {
@@ -52,7 +63,6 @@ class Step9 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const {
             cookies,
             putCandidateStep9: { values },
@@ -67,7 +77,6 @@ class Step9 extends React.Component {
         if (values.immRefusedEnterCanada || values.immDeported || values.immRefugee || values.immOverstayedVisa || values.immArresed) {
             values.immIsCleared = false;
         }
-        console.log('values', values);
         this.props.actionPutCandidate(values);
     };
 
@@ -83,7 +92,6 @@ class Step9 extends React.Component {
     };
 
     render() {
-        console.log('Step9', this.props);
         const {
             handleSubmit,
             submitting,
@@ -91,7 +99,7 @@ class Step9 extends React.Component {
             error,
             reset,
             pristine,
-            isLoading,
+            candidate: { isLoading },
         } = this.props;
         return (
             <div className="container">

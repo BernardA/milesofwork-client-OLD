@@ -106,6 +106,7 @@ export function MonthYearPicker(field) {
     return (
         <KeyboardDatePicker
             // disableToolbar
+            disableFuture={field.disableFuture}
             style={{ marginBottom: '20px' }}
             className={classes.root}
             variant={field.variant}

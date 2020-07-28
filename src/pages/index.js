@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Button } from '@material-ui/core/';
 import Link from '../components/link';
+import NotifierInline from '../components/notifierInline';
 
 export default function Home() {
     return (
@@ -11,8 +12,16 @@ export default function Home() {
             </Head>
 
             <main>
+                <NotifierInline
+                    message="This is the homepage to be defined"
+                    severity="info"
+                    isNotClosable
+                />
                 <Link href="/international">
-                    <Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                    >
                         International
                     </Button>
                 </Link>

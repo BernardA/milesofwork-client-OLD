@@ -41,7 +41,6 @@ class Step4 extends React.Component {
             candidate,
             cookies,
             router } = this.props;
-        console.log('UPDATE', this.props);
         if (!prevProps.dataPostExperience && dataPostExperience) {
             this.setState({
                 isAddNewExperience: false,
@@ -63,7 +62,6 @@ class Step4 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const {
             postExperienceForm: { values },
             cookies,
@@ -120,8 +118,6 @@ class Step4 extends React.Component {
     };
 
     render() {
-        console.log('STEP4', this.props);
-        console.log('STEP4 state', this.state);
         const {
             handleSubmit,
             submitting,
@@ -129,7 +125,8 @@ class Step4 extends React.Component {
             // error,
             reset,
             pristine,
-            isLoading,
+            candidate: { isLoading },
+            isLoadingExperience,
         } = this.props;
         const { isAddNewExperience } = this.state;
         return (
@@ -139,7 +136,7 @@ class Step4 extends React.Component {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
                 <main>
-                    {isLoading ? <Loading /> : null}
+                    {isLoading || isLoadingExperience ? <Loading /> : null}
                     <div className="title">
                         <Typography variant="h4">Professional experience</Typography>
                         <Typography variant="subtitle1" gutterBottom>
@@ -310,7 +307,7 @@ const mapStateToProps = (state) => {
         candidate: state.candidate,
         dataPostExperience: state.experience.dataPostExperience,
         errorPostExperience: state.experience.errorPostExperience,
-        isLoading: state.experience.isLoading,
+        isLoadingExperience: state.experience.isLoading,
         postExperienceForm: state.form.postExperienceForm,
     };
 };

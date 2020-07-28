@@ -24,15 +24,15 @@ const Step1 = (props) => {
     } = props;
 
     const submitStep = () => {
-        const { postCandidateForm: { values } } = props;
+        const {
+            postCandidateForm: { values },
+        } = props;
         const country = countries.filter((ct) => {
             return ct.label === values.persoResidence;
         })
-        console.log('country', country);
         values.countryCode = country[0].phone;
         router.push('/international/step2')
     }
-    console.log('STEP1', props);
     return (
         <div className="container">
             <Head>
@@ -42,7 +42,9 @@ const Step1 = (props) => {
             <main>
                 <div className="title">
                     <Typography variant="h4">General information</Typography>
-                    <Typography variant="subtitle1" gutterBottom>Step 1 of 9</Typography>
+                    <Typography variant="subtitle1" gutterBottom>
+                        Step 1 of 9
+                    </Typography>
                 </div>
                 {error ? (
                     <div>{error.messageKey}</div>
@@ -137,6 +139,7 @@ Step1.propTypes = {
 const mapStateToProps = (state) => {
     return {
         postCandidateForm: state.form.postCandidateForm,
+        candidate: state.candidate,
     };
 };
 

@@ -109,15 +109,14 @@ class Step5 extends React.Component {
 
     componentDidUpdate(prevProps) {
         const { candidate, router, cookies } = this.props;
-        console.log('UPDATE', this.props);
         if (prevProps.candidate !== candidate) {
             const { dataPutCandidate, errorPutCandidate } = candidate;
             if (prevProps.candidate.dataPutCandidate !== dataPutCandidate) {
                 if (!this.state.isIntermediateOrHigher) {
-                    router.push({
-                        pathname: '/international/notification',
-                        query: { reason: 'langSelf' },
-                    });
+                    router.push(
+                        '/international/notification/[reason]',
+                        '/international/notification/langSelf',
+                    );
                 } else {
                     cookies.set('stepDone', 5, COOKIE_OPTIONS);
                     router.push('/international/step6');
@@ -136,7 +135,6 @@ class Step5 extends React.Component {
     }
 
     submitStep = () => {
-        console.log('props submit', this.props);
         const { cookies, putCandidateStep5Form: { values } } = this.props;
         // set state if any assessment is basic
         for (const [key, value] of Object.entries(values)) {
@@ -160,14 +158,11 @@ class Step5 extends React.Component {
     };
 
     render() {
-        console.log('STEP5', this.props);
         const {
             handleSubmit,
             submitting,
             invalid,
             error,
-            reset,
-            pristine,
             candidate: { isLoading },
             classes,
         } = this.props;
@@ -267,14 +262,6 @@ class Step5 extends React.Component {
                                             type="submit"
                                         >
                                             Continue
-                                        </Button>
-                                        <Button
-                                            disabled={pristine || submitting}
-                                            onClick={reset}
-                                            variant="contained"
-                                            color="primary"
-                                        >
-                                            Clear
                                         </Button>
                                     </FormGroup>
                                 </div>
