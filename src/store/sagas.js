@@ -182,7 +182,6 @@ function* getCheckOnlineStatus() {
 }
 
 function* postCandidate(action) {
-    console.log('candidate action', action);
     const { values } = action;
     const queryQl = `mutation postCandidate(
             $persoLastName: String!
@@ -267,7 +266,6 @@ function* postCandidate(action) {
 }
 
 function* putCandidate(action) {
-    console.log('candidate PUT', action);
     const { values } = action;
     const queryQl = `mutation putCandidate(
             $id: ID!
@@ -479,7 +477,6 @@ function* putCandidate(action) {
 }
 
 function* postExperience(action) {
-    console.log('experience action', action);
     const { values } = action;
     const queryQl = `mutation postExperience(
             $candidate: String 
@@ -562,7 +559,6 @@ function* postExperience(action) {
 }
 
 function* postFamily(action) {
-    console.log('family action', action);
     const { values } = action;
     const queryQl = `mutation postFamily(
             $candidate: String 

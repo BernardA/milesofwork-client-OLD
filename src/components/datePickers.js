@@ -46,7 +46,6 @@ const useStyles = makeStyles({
 });
 
 export function DatePicker(field) {
-    console.log('PICKER', field);
     const classes = useStyles();
     return (
         <KeyboardDatePicker
@@ -74,7 +73,6 @@ export function DatePicker(field) {
 }
 
 export function YearPicker(field) {
-    console.log('PICKER', field);
     const classes = useStyles();
     return (
         <KeyboardDatePicker
@@ -101,7 +99,6 @@ export function YearPicker(field) {
 }
 
 export function MonthYearPicker(field) {
-    console.log('PICKER', field);
     const classes = useStyles();
     return (
         <KeyboardDatePicker

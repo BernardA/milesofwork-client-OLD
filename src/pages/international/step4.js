@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { withCookies, Cookies } from 'react-cookie';
+import { withStyles } from '@material-ui/core/styles';
 import { Button, FormGroup, Typography } from '@material-ui/core/';
 import PropTypes from 'prop-types';
 import { required } from '../../tools/validator';
@@ -16,6 +17,11 @@ import { Loading } from '../../components/loading';
 import { MonthYearPicker } from '../../components/datePickers';
 import { COOKIE_OPTIONS } from '../../../parameters';
 
+const styles = () => ({
+    actionButton: {
+        marginBottom: '30px',
+    },
+});
 
 class Step4 extends React.Component {
     constructor(props) {
@@ -127,6 +133,7 @@ class Step4 extends React.Component {
             pristine,
             candidate: { isLoading },
             isLoadingExperience,
+            classes,
         } = this.props;
         const { isAddNewExperience } = this.state;
         return (
@@ -138,7 +145,9 @@ class Step4 extends React.Component {
                 <main>
                     {isLoading || isLoadingExperience ? <Loading /> : null}
                     <div className="title">
-                        <Typography variant="h4">Professional experience</Typography>
+                        <Typography variant="h4">
+                            Professional experience
+                        </Typography>
                         <Typography variant="subtitle1" gutterBottom>
                             Step 4 of 9
                         </Typography>
@@ -147,6 +156,7 @@ class Step4 extends React.Component {
                         <div>
                             <FormGroup>
                                 <Button
+                                    className={classes.actionButton}
                                     variant="contained"
                                     color="primary"
                                     onClick={this.handleAddNewExperience}
@@ -328,5 +338,5 @@ export default connect(
 )(
     reduxForm({
         form: 'postExperienceForm',
-    })(withRouter(withCookies(Step4))),
+    })(withRouter(withCookies(withStyles(styles)(Step4)))),
 );

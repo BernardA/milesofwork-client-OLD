@@ -228,5 +228,5 @@ export default connect(
 )(
     reduxForm({
         form: 'postFamilyForm',
-    })(withRouter(withCookies(Step8))),
+    })(withRouter(withCookies(withStyles(styles)(Step8)))),
 );

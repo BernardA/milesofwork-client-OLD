@@ -115,7 +115,6 @@ export class renderRadio extends React.Component {
     };
 
     render() {
-        console.log('radio props',this.props);
         const { meta: { touched, error } } = this.props;
         return (
             <>
