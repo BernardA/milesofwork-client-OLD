@@ -1,3 +1,5 @@
 fix set date string on submit
 notification handle not accepted reasons
 clientMutationId
+
+Warning: No build cache found. Please configure build caching for faster rebuilds. Read more: https://err.sh/next.js/no-cache
